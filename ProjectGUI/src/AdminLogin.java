@@ -4,9 +4,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.awt.event.ActionEvent;
 
 public class AdminLogin extends JFrame {
 
@@ -69,6 +77,48 @@ public class AdminLogin extends JFrame {
 		textField_1.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Admin");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				try
+				{
+					String adminid=textField.getText();
+					String adminpwd=textField_1.getText();
+					
+					String str1="select * from adminlogin";
+					
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					
+					Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/gopius","root","root");
+					
+					Statement smt=conn.createStatement();
+					
+					ResultSet rs=smt.executeQuery(str1);
+					
+					rs.next();
+					
+					String adminiddb=rs.getString(1);
+					
+					String adminpwddb=rs.getString(2);
+					
+					if(adminid.equals(adminiddb)&&adminpwd.equals(adminpwddb))
+					{
+						JOptionPane.showMessageDialog(btnNewButton, "LoginSucess!!");
+						new AdminHomePage().setVisible(true);
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(btnNewButton, "LoginFail..!!");
+					}
+					
+					
+				}
+				catch(Exception r)
+				{
+					System.out.println(r);
+				}
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnNewButton.setBounds(70, 285, 117, 30);
 		contentPane.add(btnNewButton);
