@@ -2,3 +2,6 @@ create database gopius;
 create table adminlogin(adminid varchar(100),adminpwd varchar(100));
 insert into adminlogin values('admin','admin@123');
 select * from adminlogin;
+
+create table addproduct(pid integer,pname varchar(100),pprice integer,quty integer);
+select * from addproduct;

@@ -4,9 +4,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.awt.event.ActionEvent;
 
 public class AddProduct extends JFrame {
 
@@ -92,18 +100,135 @@ public class AddProduct extends JFrame {
 		textField_3.setColumns(10);
 		
 		JButton btnNewButton = new JButton("AddProduct");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				try
+				{
+					int pid=Integer.parseInt(textField.getText());
+					String pname=textField_1.getText();
+					int pprice=Integer.parseInt(textField_2.getText());
+					int qty=Integer.parseInt(textField_3.getText());
+					
+					String str1="insert into addproduct values('"+pid+"','"+pname+"','"+pprice+"','"+qty+"')";
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					
+					Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/gopius","root","root");
+					
+					Statement smt=conn.createStatement();
+					
+					smt.executeUpdate(str1);
+					
+					JOptionPane.showMessageDialog(btnNewButton,"ProductAddded");
+					
+					
+				}
+				catch(Exception t)
+				{
+					System.out.println(t);
+				}
+			}
+		});
 		btnNewButton.setBounds(527, 71, 103, 28);
 		panel.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Searching");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				try
+				{
+					int pid=Integer.parseInt(textField.getText());
+					String str2="select * from addproduct where pid='"+pid+"'";
+					
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					
+					Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/gopius","root","root");
+					
+					Statement smt=conn.createStatement();
+					
+					ResultSet rs=smt.executeQuery(str2);
+					
+					rs.next();
+					
+					String r1=rs.getString(2);
+					String r2=rs.getString(3);
+					String r3=rs.getString(4);
+					
+					textField_1.setText(r1);
+					
+					textField_2.setText(r2);
+					
+					textField_3.setText(r3);
+					
+					JOptionPane.showMessageDialog(btnNewButton_1,"Searching..");
+					
+					
+				}
+				catch(Exception t)
+				{
+					System.out.println(t);
+				}
+			}
+		});
 		btnNewButton_1.setBounds(527, 152, 103, 28);
 		panel.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Updated");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				try
+				{
+					int pid=Integer.parseInt(textField.getText());
+					String pname=textField_1.getText();
+					String str3="update addproduct set pname='"+pname+"'where pid='"+pid+"'";
+					
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					
+					Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/gopius","root","root");
+					
+					Statement smt=conn.createStatement();
+					
+					smt.executeUpdate(str3);
+					
+					JOptionPane.showMessageDialog(btnNewButton_2,"ProductUpdated..");
+				}
+				catch(Exception t)
+				{
+					System.out.println(t);
+				}
+			}
+		});
 		btnNewButton_2.setBounds(527, 237, 103, 28);
 		panel.add(btnNewButton_2);
 		
 		JButton btnNewButton_3 = new JButton("Delete");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				try
+				{
+					int pid=Integer.parseInt(textField.getText());
+					
+					String str4="delete from addproduct where pid='"+pid+"'";
+					
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					
+					Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/gopius","root","root");
+					
+					Statement smt=conn.createStatement();
+					
+					smt.executeUpdate(str4);
+					
+					JOptionPane.showMessageDialog(btnNewButton_3,"ProductDeleted..");
+				}
+				catch(Exception t)
+				{
+					System.out.println(t);
+				}
+			}
+		});
 		btnNewButton_3.setBounds(527, 321, 103, 28);
 		panel.add(btnNewButton_3);
 	}
