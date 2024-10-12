@@ -1,0 +1,7 @@
+create table employee(e_id integer,e_name varchar(100));
+
+create table Employee_address (Employee_e_id integer not null, e_city varchar(255), e_pincode integer not null, e_state varchar(255));
+
+select * from employee;
+
+select * from employee_address;
