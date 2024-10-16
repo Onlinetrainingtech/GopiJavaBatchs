@@ -1,0 +1,3 @@
+create table Employee_address (Employee_e_id integer not null, e_city varchar(255), e_pincode integer not null, e_state varchar(255));
+
+create table employeeData (e_id integer not null, e_name varchar(255), primary key (e_id));
