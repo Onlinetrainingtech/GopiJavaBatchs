@@ -11,6 +11,9 @@ public class Student {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int s_id;
+	
+	private String s_name;
+	
 	public int getS_id() {
 		return s_id;
 	}
@@ -23,7 +26,6 @@ public class Student {
 	public void setS_name(String s_name) {
 		this.s_name = s_name;
 	}
-	private String s_name;
 	
 	
 }
